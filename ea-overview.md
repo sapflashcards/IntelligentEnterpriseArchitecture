@@ -1,4 +1,3 @@
-```mermaid
 graph TD
     A[Enterprise Architecture] --> B[Purpose & Scope]
     A --> C[Key Characteristics]
@@ -32,9 +31,8 @@ graph TD
     E --> E3[Templates & Models]
     E --> E4[Domains, Layers & Views]
     
-    style A fill:#FFD700
-    style B fill:#87CEEB
-    style C fill:#98FB98
-    style D fill:#DDA0DD
-    style E fill:#F0E68C
-```
+    style A fill:#FFD700,color:#000
+    style B fill:#B0E0E6,color:#000
+    style C fill:#90EE90,color:#000
+    style D fill:#E6E6FA,color:#000
+    style E fill:#F5DEB3,color:#000
