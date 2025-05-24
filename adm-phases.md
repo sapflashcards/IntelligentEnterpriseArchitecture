@@ -12,9 +12,9 @@ graph LR
     
     %% Tailoring Process
     subgraph Tailoring ["Framework Tailoring Process"]
-        T1["1. Tailoring of Framework<br/>SAP Product Engineering<br/>SAP Customer Advisory<br/>SAP Service Delivery<br/>Key Customers"]
-        T2["Refined concepts,<br/>principles & practices"]
-        T3["2. Engagement Tailoring<br/>Added SAP reference<br/>architecture content,<br/>tooling, services"]
+        T1["Tailoring of Framework SAP Product Engineering SAP Customer Advisory SAP Service Delivery Key Customers"]
+        T2["Refined concepts, principles and practices"]
+        T3["Engagement Tailoring Added SAP reference architecture content, tooling, services"]
         
         T1 --> T2
         T2 --> T3
