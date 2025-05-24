@@ -1,5 +1,5 @@
 ```mermaid
-graph TD
+graph LR
     A[SAP EA Seven Domains] --> B[Architecture Vision]
     A --> C[Strategy and Motivation]
     A --> D[Business Architecture]
