@@ -1,3 +1,4 @@
+```mermaid
 graph TD
     A[Enterprise Architecture] --> B[Purpose & Scope]
     A --> C[Key Characteristics]
@@ -36,3 +37,4 @@ graph TD
     style C fill:#90EE90,color:#000
     style D fill:#E6E6FA,color:#000
     style E fill:#F5DEB3,color:#000
+```
