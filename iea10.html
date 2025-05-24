@@ -3,443 +3,813 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TOGAF & SAP EA Framework Flashcards</title>
+    <title>SAP Enterprise Architecture</title>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: #f3f4f6;
             margin: 0;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            color: #333;
+            line-height: 1.5;
         }
-
         .container {
-            max-width: 800px;
+            max-width: 768px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .card-container {
+            width: 100%;
+            background-color: white;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
             overflow: hidden;
+            margin-bottom: 24px;
         }
-
         .header {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background-color: #2563eb;
+            padding: 16px;
             color: white;
-            padding: 30px;
+        }
+        .title {
+            font-size: 1.25rem;
+            font-weight: bold;
             text-align: center;
-        }
-
-        .header h1 {
             margin: 0;
-            font-size: 2.2rem;
-            font-weight: 600;
         }
-
         .controls {
-            padding: 20px;
-            background: #f8fafc;
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #e2e8f0;
-            flex-wrap: wrap;
-            gap: 10px;
+            margin-top: 8px;
         }
-
-        .counter {
-            font-weight: 600;
-            color: #4f46e5;
-            font-size: 1.1rem;
-        }
-
-        .nav-buttons {
+        .mode-buttons {
             display: flex;
-            gap: 10px;
+            gap: 8px;
         }
-
-        button {
-            padding: 12px 24px;
+        .mode-button {
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
             border: none;
-            border-radius: 12px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            background-color: #1e40af;
             color: white;
         }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(79, 70, 229, 0.3);
+        .mode-button.active {
+            background-color: white;
+            color: #2563eb;
+            font-weight: bold;
         }
-
-        .btn-secondary {
-            background: #e2e8f0;
-            color: #475569;
-        }
-
-        .btn-secondary:hover {
-            background: #cbd5e1;
-            transform: translateY(-1px);
-        }
-
-        .flashcard {
-            margin: 30px;
-            height: 400px;
-            perspective: 1000px;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-            cursor: pointer;
-        }
-
-        .card-inner.flipped {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            border-radius: 15px;
+        .shuffle-button {
             display: flex;
             align-items: center;
-            justify-content: center;
-            padding: 30px;
-            box-sizing: border-box;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            gap: 4px;
+            background-color: #1e40af;
+            color: white;
+            border: none;
+            padding: 4px 12px;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            cursor: pointer;
         }
-
-        .card-front {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        .shuffle-button:hover {
+            background-color: #1e3a8a;
+        }
+        .content {
+            padding: 16px;
+        }
+        .card-info {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        .flashcard {
+            background-color: #f3f4f6;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 16px;
+            min-height: 200px;
+        }
+        .flashcard.clickable {
+            cursor: pointer;
+        }
+        .flashcard.clickable:hover {
+            background-color: #e5e7eb;
+        }
+        .question {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+        .answer-container {
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid #d1d5db;
+        }
+        .answer-label {
+            font-weight: 500;
+        }
+        .answer-text {
+            margin-top: 4px;
+        }
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+            resize: vertical;
+        }
+        .feedback {
+            margin-top: 12px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+        .feedback.correct {
+            background-color: #d1fae5;
+            color: #065f46;
+        }
+        .feedback.incorrect {
+            background-color: #fee2e2;
+            color: #991b1b;
+        }
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+        .nav-button {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 500;
+            border: none;
+            cursor: pointer;
+        }
+        .nav-button.disabled {
+            background-color: #e5e7eb;
+            color: #9ca3af;
+            cursor: not-allowed;
+        }
+        .nav-button.primary {
+            background-color: #2563eb;
             color: white;
         }
-
-        .card-back {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            transform: rotateY(180deg);
+        .nav-button.primary:hover {
+            background-color: #1d4ed8;
         }
-
-        .card-content {
-            font-size: 1.3rem;
-            line-height: 1.6;
+        .nav-button.secondary {
+            background-color: #e5e7eb;
+            color: #1f2937;
+        }
+        .nav-button.secondary:hover:not(.disabled) {
+            background-color: #d1d5db;
+        }
+        .completion-message {
             text-align: center;
-            max-height: 100%;
-            overflow-y: auto;
+            padding: 32px;
         }
-
-        .card-back .card-content {
-            font-size: 1.1rem;
-            text-align: left;
+        .completion-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 16px;
         }
-
-        .card-back .card-content ul {
-            text-align: left;
+        .instructions {
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 16px;
+            width: 100%;
+        }
+        .instructions-title {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .instructions-list {
+            margin: 0;
             padding-left: 20px;
         }
-
-        .progress-bar {
-            height: 6px;
-            background: #e2e8f0;
-            margin: 0 30px 30px 30px;
-            border-radius: 3px;
-            overflow: hidden;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-
-        .card-indicator {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #64748b;
-            font-style: italic;
-        }
-
-        @media (max-width: 768px) {
-            .controls {
-                flex-direction: column;
-                gap: 15px;
-            }
-            
-            .nav-buttons {
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .flashcard {
-                margin: 20px 15px;
-                height: 350px;
-            }
-            
-            .card-content {
-                font-size: 1.1rem;
-            }
-            
-            .card-back .card-content {
-                font-size: 1rem;
-            }
+        .instructions-list li {
+            margin: 4px 0;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>TOGAF & SAP EA Framework</h1>
-            <p>Interactive Study Flashcards</p>
-        </div>
-        
-        <div class="controls">
-            <div class="counter">
-                Card <span id="current">1</span> of <span id="total">35</span>
-            </div>
-            <div class="nav-buttons">
-                <button class="btn-secondary" onclick="previousCard()">← Previous</button>
-                <button class="btn-primary" onclick="flipCard()">Flip Card</button>
-                <button class="btn-secondary" onclick="nextCard()">Next →</button>
-            </div>
-        </div>
-        
-        <div class="progress-bar">
-            <div class="progress-fill" id="progress"></div>
-        </div>
-        
-        <div class="card-indicator">
-            Click the card or "Flip Card" button to reveal the answer
-        </div>
-        
-        <div class="flashcard">
-            <div class="card-inner" id="card" onclick="flipCard()">
-                <div class="card-front">
-                    <div class="card-content" id="question"></div>
-                </div>
-                <div class="card-back">
-                    <div class="card-content" id="answer"></div>
+        <div class="card-container">
+            <div class="header">
+                <h1 class="title">SAP EA Flashcards</h1>
+                <div class="controls">
+                    <div class="mode-buttons">
+                        <button id="studyModeBtn" class="mode-button active">Study Mode</button>
+                        <button id="testModeBtn" class="mode-button">Test Mode</button>
+                    </div>
+                    <button id="shuffleBtn" class="shuffle-button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="16 3 21 3 21 8"></polyline>
+                            <line x1="4" y1="20" x2="21" y2="3"></line>
+                            <polyline points="21 16 21 21 16 21"></polyline>
+                            <line x1="15" y1="15" x2="21" y2="21"></line>
+                            <line x1="4" y1="4" x2="9" y2="9"></line>
+                        </svg>
+                        <span>Shuffle</span>
+                    </button>
                 </div>
             </div>
+            
+            <div id="contentContainer" class="content">
+                <!-- Content will be inserted here by JavaScript -->
+            </div>
+        </div>
+        
+        <div class="instructions">
+            <h2 class="instructions-title">How to use:</h2>
+            <ul class="instructions-list">
+                <li><strong>Study Mode:</strong> Click on the card to flip between question and answer</li>
+                <li><strong>Test Mode:</strong> Type your answer and check if you're correct</li>
+                <li>Use the shuffle button to randomize the order of cards</li>
+                <li>Navigate through cards with Previous and Next buttons</li>
+            </ul>
         </div>
     </div>
 
     <script>
+        // Flashcard data
         const flashcards = [
-            {
-                question: "What is TOGAF and when was it developed?",
-                answer: "TOGAF (The Open Group Architecture Framework) is an industry-standard framework for enterprise architecture that provides an approach for designing, planning, implementing, and governing enterprise IT architecture. It was developed starting in 1995 by The Open Group, based on DoD's TAFIM."
-            },
-            {
-                question: "What are the four architecture levels that TOGAF typically models?",
-                answer: "TOGAF typically models enterprise architecture at four levels:<ul><li><strong>Business Architecture</strong></li><li><strong>Application Architecture</strong></li><li><strong>Data Architecture</strong></li><li><strong>Technology Architecture</strong></li></ul>"
-            },
-            {
-                question: "What is the relationship between TOGAF and SAP Enterprise Architecture Framework?",
-                answer: "The SAP EA Framework builds upon TOGAF as its foundation. Since TOGAF is a generic framework that requires adaptation for specific contexts, SAP has tailored TOGAF to create a refined methodology that reduces tailoring efforts for typical architecture needs in SAP environments."
-            },
-            {
-                question: "What is the Architecture Development Method (ADM)?",
-                answer: "The ADM is the core component of TOGAF that describes how to develop a specific enterprise architecture in the context of business requirements. It is a process template for developing architecture, organized in different phases, and is iterative over the whole process, between phases, and within phases."
-            },
-            {
-                question: "What are the key characteristics of the ADM process?",
-                answer: "The ADM is:<ul><li><strong>Iterative</strong> - over the whole process, between phases, and within phases</li><li><strong>Flexible</strong> - decisions must be made for each iteration regarding breadth, detail level, time period, and architectural assets to leverage</li><li><strong>Generic</strong> - intended for use by enterprises in various geographies and industry sectors</li></ul>"
-            },
-            {
-                question: "What decisions must be made for each ADM iteration?",
-                answer: "For each ADM iteration, decisions must be made regarding:<ul><li>The <strong>breadth of coverage</strong> of the enterprise to be defined</li><li>The <strong>level of detail</strong> to be defined</li><li>The extent of the <strong>time period</strong> aimed at</li><li>The <strong>architectural assets</strong> to be leveraged (previous iterations, industry assets, frameworks, models)</li></ul>"
-            },
-            {
-                question: "What is the purpose of Phase A: Architecture Vision?",
-                answer: "Phase A establishes the project and initiates the ADM iteration. It:<ul><li>Describes the broader context for architecture work</li><li>Defines solution context and concept with constraints/assumptions</li><li>Sets scope, constraints, and expectations</li><li>Develops the Statement of Architecture Work</li><li>Includes project setup and organizational capability assessment</li></ul>"
-            },
-            {
-                question: "What are the key artifacts produced in Phase A: Architecture Vision?",
-                answer: "Key artifacts include:<ul><li><strong>Statement of Architecture Work</strong> and <strong>Stakeholder Map</strong></li><li><strong>Business Goals, Drivers and Objectives</strong></li><li><strong>Solution Context</strong></li><li><strong>Enterprise Capability Assessment</strong> (baseline and target capability level)</li><li><strong>Architecture Vision</strong> (Solution Concept)</li></ul>"
-            },
-            {
-                question: "What is the focus of Phase B: Business Architecture?",
-                answer: "Phase B describes how the enterprise needs to operate to achieve business goals and respond to strategic drivers. It:<ul><li>Represents Business Capabilities in EA context</li><li>Shows how value is delivered by the organization</li><li>Includes organizational structure relationships to strategies, products, initiatives, and stakeholders</li></ul>"
-            },
-            {
-                question: "What is the key deliverable of Phase B: Business Architecture?",
-                answer: "The key deliverable is the <strong>Target Business Architecture</strong> with artifacts including:<ul><li>Business Goals, Drivers and Objectives (Organization Map)</li><li>Business Roles Catalog</li><li>Business Value Flows Diagram</li><li>Business Capability Map</li><li>Business Data Catalog</li><li>Business Footprint Diagram</li><li>Business Architecture Roadmap</li></ul>"
-            },
-            {
-                question: "What does Phase C: Information Systems Architecture cover?",
-                answer: "Phase C covers both Application and Data Architecture:<ul><li><strong>Application Architecture:</strong> Application and service-centric view, portfolio management, application services supporting business processes</li><li><strong>Data Architecture:</strong> What the organization needs to know to run business processes, how data binds into workflow, data models and policies</li></ul>"
-            },
-            {
-                question: "What are the key outputs of Phase C: Application Architecture?",
-                answer: "Key outputs include application views such as:<ul><li>Application Architecture Overview Diagram</li><li>Solution Capability Diagram</li><li>Solution Component Diagram</li><li>Product Map</li><li>Software Distribution Diagram</li></ul>These describe services supporting business processes and application system interactions/interdependencies."
-            },
-            {
-                question: "What are the key outputs of Phase C: Data Architecture?",
-                answer: "Key data architecture outputs include:<ul><li>Solution Data Flow Diagram</li><li>Conceptual Data Diagram</li><li>Standard data models</li><li>Data management policies</li><li>Descriptions of information production and consumption patterns</li></ul>"
-            },
-            {
-                question: "What is the purpose of Phase D: Technology Architecture?",
-                answer: "Phase D lays out the hardware and software supporting the organization. It:<ul><li>Provides logical, vendor-independent description of infrastructure/system components</li><li>Supports the application and data domains</li><li>Develops Target Technology Architecture enabling Business, Data, and Application Architecture building blocks</li></ul>"
-            },
-            {
-                question: "What components are included in Phase D: Technology Architecture?",
-                answer: "Technology Architecture includes:<ul><li><strong>Technology components</strong> and their relationships</li><li><strong>Operating systems</strong></li><li><strong>Network connectivity components</strong></li><li><strong>Environments and Locations Diagram</strong></li><li><strong>Network and Communications Diagram</strong></li><li><strong>Container/virtualization environments</strong></li><li><strong>Hardware specifications</strong></li></ul>"
-            },
-            {
-                question: "What is the objective of Phase E: Opportunities and Solutions?",
-                answer: "Phase E identifies projects, programs and portfolios that effectively deliver the Target Architecture. It:<ul><li>Defines a holistic roadmap for transition to target architecture (3-5 years)</li><li>Identifies required programs and projects with dependencies</li><li>Focuses on final target while realizing incremental business value</li></ul>"
-            },
-            {
-                question: "What are the key deliverables of Phase E: Opportunities and Solutions?",
-                answer: "Key deliverables include:<ul><li>Finalized <strong>Business, Application/Data and Technology Architectures</strong></li><li><strong>Transition Architectures</strong></li><li><strong>Architecture Roadmap</strong> (including Transition Architectures)</li><li><strong>Migration Planning</strong> drafts and Work Breakdown Structure</li><li><strong>Benefits Diagram</strong> linked to Business Drivers and Goals</li></ul>"
-            },
-            {
-                question: "How does SAP tailor TOGAF for specific use cases?",
-                answer: "SAP tailors TOGAF through collaboration between SAP Product Engineering, Customer Advisory, Service Delivery, and key customers to:<ul><li><strong>Refine and detail</strong> concepts, artifacts, techniques, and principles</li><li><strong>Prepare and reduce</strong> tailoring efforts for typical architecture needs</li><li>Provide <strong>concrete guidance</strong> in all phases for coherent architecture engagement</li></ul>"
-            },
-            {
-                question: "What does the SAP Enterprise Architecture Framework include beyond methodology?",
-                answer: "Beyond the tailored methodology, the SAP EA Framework includes:<ul><li><strong>SAP Reference Architecture Content</strong> from SAP experts</li><li><strong>Tooling</strong> and practice recommendations</li><li><strong>Professional services</strong></li><li><strong>Reference Business Architecture content</strong> (SAP portfolio-agnostic)</li><li><strong>Reference Solution Architectures</strong> (SAP or Partner)</li></ul>"
-            },
-            {
-                question: "What benefits do SAP Reference Architectures provide?",
-                answer: "SAP Reference Architectures provide:<ul><li><strong>Jump start</strong> for architecture engagements, reducing tailoring efforts</li><li><strong>Integration insights</strong> - APIs, middleware, master data distribution</li><li><strong>Combination guidance</strong> for System Integrators working with multiple providers</li><li><strong>Rapid project initiation</strong> - overcoming difficulties of starting from scratch</li></ul>"
-            },
-            {
-                question: "What information do SAP Reference Solution Architectures provide for integration?",
-                answer: "SAP Reference Solution Architectures provide valuable information on:<ul><li><strong>Possible integration</strong> patterns and approaches</li><li><strong>APIs</strong> and their usage</li><li><strong>Middleware content</strong> and configurations</li><li><strong>Master data distribution</strong> between SAP and Non-SAP solution components</li><li><strong>Third-party component</strong> integration as partners</li></ul>"
-            },
-            {
-                question: "According to TOGAF v9.2, what is expected regarding framework adaptation?",
-                answer: "According to TOGAF v9.2 specification, 'it is in all cases expected that the architect will adapt and build on the TOGAF framework to define a tailored method.' This acknowledges that TOGAF is a generic framework requiring adaptation for specific organizational contexts and needs."
-            },
-            {
-                question: "What is the market adoption of TOGAF according to The Open Group's claims?",
-                answer: "As of 2016, The Open Group claims that TOGAF is employed by:<ul><li><strong>80% of Global 50 companies</strong></li><li><strong>60% of Fortune 500 companies</strong></li></ul>Notable members include Shell, Boeing, Apple Inc., Honeywell International Inc., and many others."
-            },
-            {
-                question: "What are the fundamental principles that TOGAF relies on?",
-                answer: "TOGAF relies heavily on:<ul><li><strong>Modularization</strong> - breaking down complex architectures into manageable components</li><li><strong>Standardization</strong> - using consistent approaches and standards</li><li><strong>Proven technologies and products</strong> - leveraging existing, tested solutions rather than reinventing</li></ul>"
-            },
-            {
-                question: "What is the two-stage evolution from TOGAF to SAP EA Framework?",
-                answer: "The evolution occurs in two stages:<ul><li><strong>Stage 1: Framework Tailoring</strong> - TOGAF is refined with new concepts, principles and practices to create SAP EA Methodology</li><li><strong>Stage 2: Engagement Tailoring</strong> - SAP reference architecture content, tooling, and services are added to create the complete SAP EA Framework</li></ul>"
-            },
-            {
-                question: "What types of architectural work products does the ADM produce?",
-                answer: "The ADM produces architectural work products in the form of:<ul><li><strong>Deliverables</strong> - formal work products reviewed and signed off by stakeholders</li><li><strong>Work products within deliverables</strong> - component parts of deliverables</li><li>Content structure defined by the <strong>Architecture Content Framework</strong></li><li>Some work products are developed within <strong>several different phases</strong></li></ul>"
-            },
-            {
-                question: "How does the ADM handle different architecture domains?",
-                answer: "The ADM develops architectures on different levels called <strong>architecture domains</strong>:<ul><li>Each phase focuses on specific domains (Business, Application, Data, Technology)</li><li>Phases are interconnected with <strong>inputs and outputs</strong></li><li>Architecture domains build upon each other progressively</li><li>All domains contribute to the overall enterprise architecture</li></ul>"
-            },
-            {
-                question: "What is the iterative nature of TOGAF ADM phases?",
-                answer: "TOGAF ADM is iterative at multiple levels:<ul><li><strong>Whole process iteration</strong> - entire ADM cycle can be repeated</li><li><strong>Between phases iteration</strong> - can move back and forth between phases</li><li><strong>Within phases iteration</strong> - iterative work within individual phases</li><li>Each iteration allows for <strong>refinement and adjustment</strong> based on new insights</li></ul>"
-            },
-            {
-                question: "What factors should guide ADM iteration decisions?",
-                answer: "ADM iteration decisions should be based on:<ul><li><strong>Practical assessment</strong> of resource and competence availability</li><li><strong>Value assessment</strong> - what can realistically accrue to the enterprise</li><li><strong>Scope considerations</strong> - breadth and depth appropriate for the situation</li><li><strong>Available architectural assets</strong> - leveraging existing work and industry standards</li></ul>"
-            },
-            {
-                question: "What makes TOGAF suitable for global and industry-diverse applications?",
-                answer: "TOGAF's generic nature makes it suitable for:<ul><li><strong>Wide variety of geographies</strong> - adaptable to different regional contexts</li><li><strong>Different vertical sectors</strong> - applicable across various industry types</li><li><strong>Diverse organizational contexts</strong> - flexible enough for different enterprise sizes and structures</li><li><strong>Various maturity levels</strong> - can be applied regardless of current architecture maturity</li></ul>"
-            },
-            {
-                question: "How does Phase A establish the foundation for the entire ADM cycle?",
-                answer: "Phase A establishes the foundation by:<ul><li><strong>Defining the broader context</strong> in which all architecture work takes place</li><li><strong>Setting up the project</strong> and governance structure</li><li><strong>Assessing organizational capability</strong> to understand current state</li><li><strong>Creating the vision</strong> that guides all subsequent phases</li><li><strong>Establishing stakeholder engagement</strong> and communication</li></ul>"
-            },
-            {
-                question: "What is the relationship between business capabilities and IT in Phase B?",
-                answer: "Phase B aligns the organization's operating model, strategies, and objectives with IT by:<ul><li><strong>Mapping business capabilities</strong> to required IT support</li><li><strong>Defining business processes</strong> that IT systems must enable</li><li><strong>Establishing value delivery mechanisms</strong> through technology</li><li><strong>Creating organizational alignment</strong> between business strategy and IT architecture</li></ul>"
-            },
-            {
-                question: "How do Application and Data Architecture work together in Phase C?",
-                answer: "Application and Data Architecture are interconnected in Phase C:<ul><li><strong>Applications</strong> provide services that support business processes</li><li><strong>Data</strong> flows through applications to enable business operations</li><li><strong>Interdependencies</strong> between applications are often data-driven</li><li><strong>Both architectures</strong> must align to enable the Target Business Architecture</li><li><strong>Integration patterns</strong> emerge from application-data relationships</li></ul>"
-            },
-            {
-                question: "What is the strategic importance of the Architecture Roadmap in Phase E?",
-                answer: "The Architecture Roadmap is strategically important because it:<ul><li><strong>Provides a 3-5 year transition plan</strong> to target architecture</li><li><strong>Balances final target achievement</strong> with incremental business value</li><li><strong>Identifies dependencies</strong> between programs and projects</li><li><strong>Aligns with stakeholder requirements</strong> and transformation readiness</li><li><strong>Enables incremental implementation</strong> while maintaining architectural coherence</li></ul>"
-            },
-            {
-                question: "How does the SAP EA Framework reduce implementation effort compared to generic TOGAF?",
-                answer: "The SAP EA Framework reduces effort through:<ul><li><strong>Pre-built reference content</strong> - eliminating need to start from scratch</li><li><strong>SAP-specific guidance</strong> - tailored practices for SAP environments</li><li><strong>Proven templates and tools</strong> - reducing development time</li><li><strong>Professional services support</strong> - expert assistance available</li><li><strong>Industry-tested approaches</strong> - leveraging collective experience of SAP customers and partners</li></ul>"
+  {
+    "question": "What is the primary purpose of Enterprise Architecture?",
+    "answer": "To provide a blueprint and roadmap for aligning business strategy with IT, similar to how architecture provides a blueprint for constructing a building. [cite: 2]"
+  },
+  {
+    "question": "What problem led to the development of Enterprise Architecture?",
+    "answer": "The lack of alignment between business strategy and IT resulted in significant waste of resources, missed opportunities, and competitive disadvantage in the market. [cite: 4]"
+  },
+  {
+    "question": "Name the four levels of detail that Enterprise Architecture models provide about an enterprise.",
+    "answer": "1. Its objectives and goals[cite: 6], 2. Its processes and organization[cite: 6], 3. Its systems and data[cite: 6], 4. The technology used. [cite: 6]"
+  },
+  {
+    "question": "What are the three main benefits that effective Enterprise Architecture competencies enable?",
+    "answer": "1. Drive corporate-wide transformation and digitalization initiatives[cite: 8], 2. Enable strategic business goals through operational excellence, customer intimacy, product leadership, or strategic agility[cite: 8], 3. Maximize ROI of Enterprise Architecture initiatives. [cite: 8]"
+  },
+  {
+    "question": "What is a key characteristic of Enterprise Architecture in terms of organizational perspective?",
+    "answer": "It applies a holistic view across the organization, embracing business and IT along all functions, while also taking external factors into account. [cite: 10]"
+  },
+  {
+    "question": "What is the difference between \"as-is\" and \"to-be\" models in Enterprise Architecture?",
+    "answer": "\"To-be\" models depict the envisioned future state, while \"as-is\" models help assess the gap between the current and future state and translate it into a roadmap. [cite: 12]"
+  },
+  {
+    "question": "How is \"architecture\" defined in the context of Enterprise Architecture?",
+    "answer": "Architecture defines the abstract construction of a system - whether it's a building, an organization, an IT-system, a machine, and so on. [cite: 14]"
+  },
+  {
+    "question": "Can an IT system have multiple architectures?",
+    "answer": "No, an IT system has exactly one consistent architecture, which can be displayed in different views or levels of detail for different purposes and stakeholders. [cite: 16]"
+  },
+  {
+    "question": "Why might different stakeholders need different viewpoints of the same architecture?",
+    "answer": "Because business stakeholders might be interested in a process viewpoint, while IT stakeholders might want to understand solution components, their interactions, or physical deployment. [cite: 18]"
+  },
+  {
+    "question": "What is the main purpose of Enterprise Architecture frameworks?",
+    "answer": "To simplify the process of creating Enterprise Architecture from scratch and guide architects through all areas of architecture development. [cite: 20]"
+  },
+  {
+    "question": "What does an Enterprise Architecture framework typically provide?",
+    "answer": "A collection of best practices, standards, tools, processes, and templates to assist in the creation of Enterprise Architecture and architectures of various scopes. [cite: 22]"
+  },
+  {
+    "question": "How does an architecture framework structure architects' thinking?",
+    "answer": "By dividing the architecture description into domains, layers, or views, and offering models (typically matrices and diagrams) for documenting each view. [cite: 24]"
+  },
+  {
+    "question": "What are two important dimensions that Enterprise Architecture frameworks help address?",
+    "answer": "Making systemic design decisions on all components of the system and making long-term decisions around new design requirements, sustainability, and support. [cite: 26]"
+  },
+  {
+    "question": "What role does \"common language and vocabulary\" play in Enterprise Architecture?",
+    "answer": "It's an important characteristic that helps define and introduce consistency across the organization when applying a holistic view that embraces both business and IT functions. [cite: 28]"
+  },
+  {
+    "question": "How does Enterprise Architecture help avoid IT complexity?",
+    "answer": "By supporting communication between different stakeholders from business and IT, and avoiding the creation of IT systems that add further complexity to existing IT infrastructure. [cite: 30]"
+  },
+  {
+    "question": "What is at the center of all Enterprise Architecture viewpoints?",
+    "answer": "One Enterprise Architecture - demonstrating that despite multiple viewpoints and diagrams, there is only one consistent architecture for the enterprise. [cite: 32]"
+  },
+  {
+    "question": "What are the four main viewpoints shown in the Enterprise Architecture multiple viewpoints model?",
+    "answer": "1. Solution Components[cite: 34], 2. Business Process[cite: 34], 3. Components Deployment[cite: 34], 4. Solution Component Interaction. [cite: 34]"
+  },
+  {
+    "question": "What is the difference between static structural views and dynamic process-oriented views in Enterprise Architecture?",
+    "answer": "Static structural views show the components and their relationships at a point in time, while dynamic process-oriented views show how processes flow and interact over time. [cite: 36]"
+  },
+  {
+    "question": "Which viewpoints are categorized as \"static, structural views\" versus \"dynamic, process-oriented views\"?",
+    "answer": "Static structural views include Solution Components and Components Deployment. [cite: 38] Dynamic process-oriented views include Business Process and Solution Component Interaction. [cite: 39]"
+  },
+  {
+    "question": "What types of diagrams are used to represent the different Enterprise Architecture viewpoints?",
+    "answer": "Solution Component Diagram, Process Diagram, Environments and Location Diagram, and Component Interaction Diagram - each tailored to show specific aspects of the architecture to different stakeholders. [cite: 41]"
+  },
+  {
+    "question": "What is TOGAF and when was it developed?",
+    "answer": "TOGAF (The Open Group Architecture Framework) is an industry-standard framework for enterprise architecture that provides an approach for designing, planning, implementing, and governing enterprise IT architecture. [cite: 42] It was developed starting in 1995 by The Open Group, based on DoD's TAFIM. [cite: 42]"
+  },
+  {
+    "question": "What are the four architecture levels that TOGAF typically models?",
+    "answer": "TOGAF typically models enterprise architecture at four levels: Business Architecture, Application Architecture, Data Architecture, and Technology Architecture."
+  },
+  {
+    "question": "What is the relationship between TOGAF and SAP Enterprise Architecture Framework?",
+    "answer": "The SAP EA Framework builds upon TOGAF as its foundation. [cite: 44] Since TOGAF is a generic framework that requires adaptation for specific contexts, SAP has tailored TOGAF to create a refined methodology that reduces tailoring efforts for typical architecture needs in SAP environments. [cite: 44]"
+  },
+  {
+    "question": "What is the Architecture Development Method (ADM)?",
+    "answer": "The ADM is the core component of TOGAF that describes how to develop a specific enterprise architecture in the context of business requirements. [cite: 45] It is a process template for developing architecture, organized in different phases, and is iterative over the whole process, between phases, and within phases. [cite: 45]"
+  },
+  {
+    "question": "What are the key characteristics of the ADM process?",
+    "answer": "The ADM is: Iterative - over the whole process, between phases, and within phases[cite: 46]; Flexible - decisions must be made for each iteration regarding breadth, detail level, time period, and architectural assets to leverage[cite: 46]; Generic - intended for use by enterprises in various geographies and industry sectors. [cite: 46]"
+  },
+  {
+    "question": "What decisions must be made for each ADM iteration?",
+    "answer": "For each ADM iteration, decisions must be made regarding: The breadth of coverage of the enterprise to be defined[cite: 47]; The level of detail to be defined[cite: 47]; The extent of the time period aimed at[cite: 47]; The architectural assets to be leveraged (previous iterations, industry assets, frameworks, models). [cite: 48]"
+  },
+  {
+    "question": "What is the purpose of Phase A: Architecture Vision?",
+    "answer": "Phase A establishes the project and initiates the ADM iteration. [cite: 49] It: Describes the broader context for architecture work[cite: 49]; Defines solution context and concept with constraints/assumptions[cite: 49]; Sets scope, constraints, and expectations[cite: 49]; Develops the Statement of Architecture Work[cite: 49]; Includes project setup and organizational capability assessment. [cite: 49]"
+  },
+  {
+    "question": "What are the key artifacts produced in Phase A: Architecture Vision?",
+    "answer": "Key artifacts include: Statement of Architecture Work [cite: 50] and Stakeholder Map[cite: 50]; Business Goals, Drivers and Objectives[cite: 50]; Solution Context[cite: 50]; Enterprise Capability Assessment (baseline and target capability level)[cite: 50]; Architecture Vision (Solution Concept). [cite: 50]"
+  },
+  {
+    "question": "What is the focus of Phase B: Business Architecture?",
+    "answer": "Phase B describes how the enterprise needs to operate to achieve business goals and respond to strategic drivers. [cite: 51] It: Represents Business Capabilities in EA context[cite: 51]; Shows how value is delivered by the organization[cite: 51]; Includes organizational structure relationships to strategies, products, initiatives, and stakeholders. [cite: 51]"
+  },
+  {
+    "question": "What is the key deliverable of Phase B: Business Architecture?",
+    "answer": "The key deliverable is the Target Business Architecture [cite: 52] with artifacts including: Business Goals, Drivers and Objectives (Organization Map)[cite: 52]; Business Roles Catalog[cite: 52]; Business Value Flows Diagram[cite: 52]; Business Capability Map[cite: 52]; Business Data Catalog[cite: 52]; Business Footprint Diagram[cite: 52]; Business Architecture Roadmap. [cite: 52]"
+  },
+  {
+    "question": "What does Phase C: Information Systems Architecture cover?",
+    "answer": "Phase C covers both Application and Data Architecture: Application Architecture: Application and service-centric view, portfolio management, application services supporting business processes[cite: 53]; Data Architecture: What the organization needs to know to run business processes, how data binds into workflow, data models and policies. [cite: 53]"
+  },
+  {
+    "question": "What are the key outputs of Phase C: Application Architecture?",
+    "answer": "Key outputs include application views such as: Application Architecture Overview Diagram[cite: 54]; Solution Capability Diagram[cite: 54]; Solution Component Diagram[cite: 54]; Product Map[cite: 54]; Software Distribution Diagram. [cite: 54] These describe services supporting business processes and application system interactions/interdependencies. [cite: 54]"
+  },
+  {
+    "question": "What are the key outputs of Phase C: Data Architecture?",
+    "answer": "Key data architecture outputs include: Solution Data Flow Diagram[cite: 55]; Conceptual Data Diagram[cite: 55]; Standard data models[cite: 55]; Data management policies[cite: 55]; Descriptions of information production and consumption patterns. [cite: 55]"
+  },
+  {
+    "question": "What is the purpose of Phase D: Technology Architecture?",
+    "answer": "Phase D lays out the hardware and software supporting the organization. [cite: 56] It: Provides logical, vendor-independent description of infrastructure/system components[cite: 56]; Supports the application and data domains[cite: 56]; Develops Target Technology Architecture enabling Business, Data, and Application Architecture building blocks. [cite: 56]"
+  },
+  {
+    "question": "What components are included in Phase D: Technology Architecture?",
+    "answer": "Technology Architecture includes: Technology components and their relationships[cite: 57]; Operating systems[cite: 57]; Network connectivity components[cite: 57]; Environments and Locations Diagram[cite: 57]; Network and Communications Diagram[cite: 57]; Container/virtualization environments[cite: 57]; Hardware specifications. [cite: 57]"
+  },
+  {
+    "question": "What is the objective of Phase E: Opportunities and Solutions?",
+    "answer": "Phase E identifies projects, programs and portfolios that effectively deliver the Target Architecture. [cite: 58] It: Defines a holistic roadmap for transition to target architecture (3-5 years)[cite: 58]; Identifies required programs and projects with dependencies[cite: 58]; Focuses on final target while realizing incremental business value. [cite: 58]"
+  },
+  {
+    "question": "What are the key deliverables of Phase E: Opportunities and Solutions?",
+    "answer": "Key deliverables include: Finalized Business, Application/Data and Technology Architectures[cite: 59]; Transition Architectures[cite: 59]; Architecture Roadmap (including Transition Architectures)[cite: 59]; Migration Planning drafts and Work Breakdown Structure[cite: 59]; Benefits Diagram linked to Business Drivers and Goals. [cite: 59]"
+  },
+  {
+    "question": "How does SAP tailor TOGAF for specific use cases?",
+    "answer": "SAP tailors TOGAF through collaboration between SAP Product Engineering, Customer Advisory, Service Delivery, and key customers to: Refine and detail concepts, artifacts, techniques, and principles[cite: 60]; Prepare and reduce tailoring efforts for typical architecture needs[cite: 60]; Provide concrete guidance in all phases for coherent architecture engagement. [cite: 60]"
+  },
+  {
+    "question": "What does the SAP Enterprise Architecture Framework include beyond methodology?",
+    "answer": "Beyond the tailored methodology, the SAP EA Framework includes: SAP Reference Architecture Content from SAP experts[cite: 61]; Tooling and practice recommendations[cite: 61]; Professional services[cite: 61]; Reference Business Architecture content (SAP portfolio-agnostic)[cite: 61]; Reference Solution Architectures (SAP or Partner). [cite: 61]"
+  },
+  {
+    "question": "What benefits do SAP Reference Architectures provide?",
+    "answer": "SAP Reference Architectures provide: Jump start for architecture engagements, reducing tailoring efforts[cite: 62]; Integration insights - APIs, middleware, master data distribution[cite: 62]; Combination guidance for System Integrators working with multiple providers[cite: 62]; Rapid project initiation - overcoming difficulties of starting from scratch. [cite: 62]"
+  },
+  {
+    "question": "What information do SAP Reference Solution Architectures provide for integration?",
+    "answer": "SAP Reference Solution Architectures provide valuable information on: Possible integration patterns and approaches[cite: 63]; APIs and their usage[cite: 63]; Middleware content and configurations[cite: 63]; Master data distribution between SAP and Non-SAP solution components[cite: 63]; Third-party component integration as partners. [cite: 63]"
+  },
+  {
+    "question": "According to TOGAF v9.2, what is expected regarding framework adaptation?",
+    "answer": "According to TOGAF v9.2 specification, 'it is in all cases expected that the architect will adapt and build on the TOGAF framework to define a tailored method.' [cite: 64] This acknowledges that TOGAF is a generic framework requiring adaptation for specific organizational contexts and needs. [cite: 64]"
+  },
+  {
+    "question": "What is the market adoption of TOGAF according to The Open Group's claims?",
+    "answer": "As of 2016, The Open Group claims that TOGAF is employed by: 80% of Global 50 companies[cite: 65]; 60% of Fortune 500 companies. [cite: 65] Notable members include Shell, Boeing, Apple Inc., Honeywell International Inc., and many others. [cite: 65]"
+  },
+  {
+    "question": "What are the fundamental principles that TOGAF relies on?",
+    "answer": "TOGAF relies heavily on: Modularization - breaking down complex architectures into manageable components[cite: 66]; Standardization - using consistent approaches and standards[cite: 66]; Proven technologies and products - leveraging existing, tested solutions rather than reinventing. [cite: 66]"
+  },
+  {
+    "question": "What is the two-stage evolution from TOGAF to SAP EA Framework?",
+    "answer": "The evolution occurs in two stages: Stage 1: Framework Tailoring - TOGAF is refined with new concepts, principles and practices to create SAP EA Methodology[cite: 67]; Stage 2: Engagement Tailoring - SAP reference architecture content, tooling, and services are added to create the complete SAP EA Framework. [cite: 67]"
+  },
+  {
+    "question": "What types of architectural work products does the ADM produce?",
+    "answer": "The ADM produces architectural work products in the form of: Deliverables - formal work products reviewed and signed off by stakeholders[cite: 68]; Work products within deliverables - component parts of deliverables[cite: 68]; Content structure defined by the Architecture Content Framework[cite: 68]; Some work products are developed within several different phases. [cite: 68]"
+  },
+  {
+    "question": "How does the ADM handle different architecture domains?",
+    "answer": "The ADM develops architectures on different levels called architecture domains: Each phase focuses on specific domains (Business, Application, Data, Technology)[cite: 69]; Phases are interconnected with inputs and outputs[cite: 69]; Architecture domains build upon each other progressively[cite: 69]; All domains contribute to the overall enterprise architecture. [cite: 69]"
+  },
+  {
+    "question": "What is the iterative nature of TOGAF ADM phases?",
+    "answer": "TOGAF ADM is iterative at multiple levels: Whole process iteration - entire ADM cycle can be repeated[cite: 70]; Between phases iteration - can move back and forth between phases[cite: 70]; Within phases iteration - iterative work within individual phases[cite: 70]; Each iteration allows for refinement and adjustment based on new insights. [cite: 70]"
+  },
+  {
+    "question": "What factors should guide ADM iteration decisions?",
+    "answer": "ADM iteration decisions should be based on: Practical assessment of resource and competence availability[cite: 71]; Value assessment - what can realistically accrue to the enterprise[cite: 71]; Scope considerations - breadth and depth appropriate for the situation[cite: 71]; Available architectural assets - leveraging existing work and industry standards. [cite: 71]"
+  },
+  {
+    "question": "What makes TOGAF suitable for global and industry-diverse applications?",
+    "answer": "TOGAF's generic nature makes it suitable for: Wide variety of geographies - adaptable to different regional contexts[cite: 72]; Different vertical sectors - applicable across various industry types[cite: 72]; Diverse organizational contexts - flexible enough for different enterprise sizes and structures[cite: 72]; Various maturity levels - can be applied regardless of current architecture maturity. [cite: 72]"
+  },
+  {
+    "question": "How does Phase A establish the foundation for the entire ADM cycle?",
+    "answer": "Phase A establishes the foundation by: Defining the broader context in which all architecture work takes place[cite: 73]; Setting up the project and governance structure[cite: 73]; Assessing organizational capability to understand current state[cite: 73]; Creating the vision that guides all subsequent phases[cite: 73]; Establishing stakeholder engagement and communication. [cite: 73]"
+  },
+  {
+    "question": "What is the relationship between business capabilities and IT in Phase B?",
+    "answer": "Phase B aligns the organization's operating model, strategies, and objectives with IT by: Mapping business capabilities to required IT support[cite: 74]; Defining business processes that IT systems must enable[cite: 74]; Establishing value delivery mechanisms through technology[cite: 74]; Creating organizational alignment between business strategy and IT architecture. [cite: 74]"
+  },
+  {
+    "question": "How do Application and Data Architecture work together in Phase C?",
+    "answer": "Application and Data Architecture are interconnected in Phase C: Applications provide services that support business processes[cite: 75]; Data flows through applications to enable business operations[cite: 75]; Interdependencies between applications are often data-driven[cite: 75]; Both architectures must align to enable the Target Business Architecture[cite: 75]; Integration patterns emerge from application-data relationships. [cite: 75]"
+  },
+  {
+    "question": "What is the strategic importance of the Architecture Roadmap in Phase E?",
+    "answer": "The Architecture Roadmap is strategically important because it: Provides a 3-5 year transition plan to target architecture[cite: 76]; Balances final target achievement with incremental business value[cite: 76]; Identifies dependencies between programs and projects[cite: 76]; Aligns with stakeholder requirements and transformation readiness[cite: 76]; Enables incremental implementation while maintaining architectural coherence. [cite: 76]"
+  },
+  {
+    "question": "How does the SAP EA Framework reduce implementation effort compared to generic TOGAF?",
+    "answer": "The SAP EA Framework reduces effort through: Pre-built reference content - eliminating need to start from scratch[cite: 77]; SAP-specific guidance - tailored practices for SAP environments[cite: 77]; Proven templates and tools - reducing development time[cite: 77]; Professional services support - expert assistance available[cite: 77]; Industry-tested approaches - leveraging collective experience of SAP customers and partners. [cite: 78]"
+  },
+  {
+    "question": "What are the five building blocks of the SAP Enterprise Architecture Framework?",
+    "answer": "1. Methodology[cite: 79], 2. Reference Architecture Content[cite: 79], 3. Tooling[cite: 79], 4. Practice[cite: 79], 5. Services [cite: 79]"
+  },
+  {
+    "question": "What industry standards is the SAP EA Methodology based on?",
+    "answer": "TOGAF (The Open Group Architecture Framework), BPMN, UML, and APQC standards. [cite: 80] The latest version TOGAF 10 has been taken into consideration. [cite: 80]"
+  },
+  {
+    "question": "What does the Reference Architecture Content building block provide?",
+    "answer": "SAP Reference Business and Solution Architecture that maps business strategy and architecture to SAP solutions, providing standardized, high-quality EA content based on APQC to describe the complete business scope of enterprises. [cite: 81]"
+  },
+  {
+    "question": "Name the components that make up the SAP EA toolchain.",
+    "answer": "Signavio, CALM, PMG (Product Map Generator), and API Hub - these tools support authoring, publishing, and consumption of SAP EA Content. [cite: 81]"
+  },
+  {
+    "question": "What is the EA Practice building block?",
+    "answer": "The organizational implementation of EA that operates enterprise architecture within the organization by adopting the EA methodology and establishing governance processes, including change management processes for the framework. [cite: 82]"
+  },
+  {
+    "question": "What are the four main components that EA Artifacts consist of?",
+    "answer": "1. EA Artifacts (diagrams, catalogs, reports)[cite: 83], 2. EA Techniques (guidelines, standards, processes)[cite: 83], 3. EA Concepts (abstract representations)[cite: 83], 4. Shared Principles (fundamental guidelines). [cite: 83]"
+  },
+  {
+    "question": "Give examples of EA Concepts in the SAP framework.",
+    "answer": "Business Capabilities, Solution Components, Communication Channels, Data Flows - these are fundamental, abstract representations of entities relevant to EA. [cite: 83]"
+  },
+  {
+    "question": "What are examples of EA Techniques?",
+    "answer": "Capability-based Planning, Stakeholder Management, Architecture Road Mapping - these are guidelines, standards, processes, and behaviors to deliver and utilize enterprise architecture work products. [cite: 84]"
+  },
+  {
+    "question": "What are the Shared Principles in SAP EA?",
+    "answer": "Architecture Content Fluency, Reuse of Industry Standards, Transparent Change and Decisions, Appreciation of Other Disciplines - fundamental guidelines that capture shared values, goals, and priorities. [cite: 85]"
+  },
+  {
+    "question": "What are the seven domains in the SAP Enterprise Architecture Methodology?",
+    "answer": "1. Architecture Vision[cite: 86], 2. Strategy and Motivation[cite: 86], 3. Business Architecture[cite: 86], 4. Solution Architecture[cite: 86], 5. Technology Architecture[cite: 86], 6. Roadmap and Transition[cite: 86], 7. Requirements and Governance. [cite: 86]"
+  },
+  {
+    "question": "What is the focus of the Architecture Vision domain?",
+    "answer": "Focuses on an initial sketch of the overall outcome of architecture work, identifying stakeholders and gathering context from both business and IT strategies, and defining the scope and requirements for next phases. [cite: 87]"
+  },
+  {
+    "question": "What does the Strategy and Motivation domain cover?",
+    "answer": "The first part of Business Architecture that derives objectives (value drivers) from company strategic priorities and long-term goals, ensuring enterprise architecture alignment with business strategy and motivating stakeholders. [cite: 87]"
+  },
+  {
+    "question": "What artifacts are included in the Business Architecture domain?",
+    "answer": "Business Capability Map, Business Process Catalog, Business Value Flow Diagram, Organization Map, Business Data Catalog, Business Role Catalog, Business Footprint Diagram. [cite: 88]"
+  },
+  {
+    "question": "What is the main purpose of the Solution Architecture domain?",
+    "answer": "Covers reference, base, target, and/or transition architectures focusing on capabilities, processes, data, and organizational structure. [cite: 89] It serves as a bridge between business and technical sides, aligning technology solutions with business goals. [cite: 89]"
+  },
+  {
+    "question": "What does the Technology Architecture domain focus on?",
+    "answer": "Documents how target solution architecture building blocks are delivered via technology components (operating systems, virtualized environments, hardware, networks) and depicts deployment of organization's IT systems in specific data center locations. [cite: 90]"
+  },
+  {
+    "question": "What is the purpose of the Roadmap and Transition domain?",
+    "answer": "Focuses on uncovering project growth opportunities and managing the transition of systems or processes, involving pinpointing potential advantages, planning migrations, and executing changes to achieve project objectives efficiently. [cite: 90]"
+  },
+  {
+    "question": "What does the Requirements and Governance domain include?",
+    "answer": "Not linked to a particular phase but includes governance artifacts like risk catalog, architecture principles, and captures important architecture decisions as Architecture Decision Records (ADR). [cite: 91] Requirements can come up in any architecture domain. [cite: 91]"
+  },
+  {
+    "question": "What artifacts are part of the Architecture Vision domain?",
+    "answer": "Stakeholder Map, Statement of Architecture Work, Solution Context Diagram, Solution Concept Diagram. [cite: 92]"
+  },
+  {
+    "question": "Name the artifacts in the Strategy and Motivation domain.",
+    "answer": "Business Context Diagram, Business Strategy Map, Business Model Canvas. [cite: 92]"
+  },
+  {
+    "question": "What Solution Architecture artifacts are mentioned in the framework?",
+    "answer": "Product Map, Solution Component Diagram, Solution Value Flow Diagram, Solution Process Flow Diagram, Solution Data Flow Diagram, Software Distribution Diagram, Application Architecture Overview Diagram, Conceptual Data Diagram. [cite: 92]"
+  },
+  {
+    "question": "What is the TOGAF ADM and how does SAP EA relate to it?",
+    "answer": "TOGAF Architecture Development Method (ADM) is a proven EA methodology cycle for developing and managing Enterprise Architecture lifecycle. [cite: 93] SAP EA Methodology is aligned with TOGAF standard and tailored to SAP Reference Architecture. [cite: 94]"
+  },
+  {
+    "question": "What was the former name of the SAP Enterprise Architecture Methodology?",
+    "answer": "Industry Reference Architecture (IndRA) framework - it was a SAP internal project that evolved into the current SAP Enterprise Architecture Methodology. [cite: 94]"
+  },
+  {
+    "question": "What approach does SAP recommend for customers using the EA framework?",
+    "answer": "A phased approach that can be used by any enterprise to find IT Solutions that meet their business needs, with architecture work run in iterations as foreseen by TOGAF ADM. [cite: 95]"
+  },
+  {
+    "question": "What are the key value propositions of the SAP Enterprise Architecture Methodology?",
+    "answer": "1. Proven TOGAF and industry standards-based methodology[cite: 96], 2. Pre-tailored approach with core artifacts selection[cite: 96], 3. Detailed artifact descriptions with step-by-step instructions[cite: 96], 4. Templates and examples for each artifact[cite: 96], 5. Integrated tool support for business transformation. [cite: 96]"
+  },
+  {
+    "question": "What is the SAP EA Methodology Metro Map?",
+    "answer": "A visualization that outlines the full set of architecture artifacts (recommended and optional), input from SAP Reference Architecture, and references to existing architecture work products. [cite: 97] Artifact selection depends on the nature of the architecture project and stakeholders involved. [cite: 97]"
+  },
+  {
+    "question": "What is the release cycle for SAP S/4HANA Cloud Private Edition?",
+    "answer": "Every other year, with a requirement to upgrade at minimum once every 7 years to stay within mainstream maintenance."
+  }
+];
+
+        // Application state
+        let state = {
+            cards: [...flashcards],
+            currentCardIndex: 0,
+            showAnswer: false,
+            correctAnswers: 0,
+            totalAttempts: 0,
+            isCompleted: false,
+            mode: 'study', // 'study' or 'test'
+            userAnswer: '',
+            feedback: null
+        };
+
+        // DOM elements
+        const contentContainer = document.getElementById('contentContainer');
+        const studyModeBtn = document.getElementById('studyModeBtn');
+        const testModeBtn = document.getElementById('testModeBtn');
+        const shuffleBtn = document.getElementById('shuffleBtn');
+
+        // Event listeners for mode buttons
+        studyModeBtn.addEventListener('click', () => handleModeChange('study'));
+        testModeBtn.addEventListener('click', () => handleModeChange('test'));
+        shuffleBtn.addEventListener('click', shuffleCards);
+
+        // Functions
+        function shuffleCards() {
+            state.cards = [...flashcards].sort(() => Math.random() - 0.5);
+            state.currentCardIndex = 0;
+            state.showAnswer = false;
+            state.isCompleted = false;
+            state.userAnswer = '';
+            state.feedback = null;
+            renderContent();
+        }
+
+        function handleNext() {
+            if (state.currentCardIndex === state.cards.length - 1) {
+                state.isCompleted = true;
+            } else {
+                state.currentCardIndex += 1;
+                state.showAnswer = false;
+                state.userAnswer = '';
+                state.feedback = null;
             }
-        ];
+            renderContent();
+        }
 
-        let currentCard = 0;
-        let isFlipped = false;
+        function handlePrevious() {
+            if (state.currentCardIndex > 0) {
+                state.currentCardIndex -= 1;
+                state.showAnswer = false;
+                state.userAnswer = '';
+                state.feedback = null;
+                renderContent();
+            }
+        }
 
-        function updateCard() {
-            document.getElementById('question').textContent = flashcards[currentCard].question;
-            document.getElementById('answer').innerHTML = flashcards[currentCard].answer;
-            document.getElementById('current').textContent = currentCard + 1;
-            document.getElementById('total').textContent = flashcards.length;
+        function toggleAnswer() {
+            state.showAnswer = !state.showAnswer;
+            renderContent();
+        }
+
+        function handleReset() {
+            state.currentCardIndex = 0;
+            state.showAnswer = false;
+            state.correctAnswers = 0;
+            state.totalAttempts = 0;
+            state.isCompleted = false;
+            state.userAnswer = '';
+            state.feedback = null;
+            renderContent();
+        }
+
+        function handleModeChange(newMode) {
+            state.mode = newMode;
             
-            const progress = ((currentCard + 1) / flashcards.length) * 100;
-            document.getElementById('progress').style.width = progress + '%';
+            // Update button styles
+            if (newMode === 'study') {
+                studyModeBtn.classList.add('active');
+                testModeBtn.classList.remove('active');
+            } else {
+                studyModeBtn.classList.remove('active');
+                testModeBtn.classList.add('active');
+            }
             
-            // Reset flip state
-            const card = document.getElementById('card');
-            card.classList.remove('flipped');
-            isFlipped = false;
+            handleReset();
         }
 
-        function flipCard() {
-            const card = document.getElementById('card');
-            card.classList.toggle('flipped');
-            isFlipped = !isFlipped;
+        function checkAnswer() {
+            state.totalAttempts += 1;
+            
+            // Basic check - just seeing if the answer contains key parts
+            const currentAnswer = state.cards[state.currentCardIndex].answer.toLowerCase();
+            const userInput = state.userAnswer.toLowerCase();
+            
+            if (userInput.length < 3) {
+                state.feedback = { isCorrect: false, message: "Please provide a more complete answer" };
+                renderContent();
+                return;
+            }
+            
+            // Check if the key components of the answer are in the user's response
+            const keyParts = currentAnswer.split(/[,;]|\band\b/).map(part => part.trim());
+            const hasKeyComponents = keyParts.some(part => {
+                if (part.length > 8) {
+                    return userInput.includes(part.substring(0, 8));
+                }
+                return false;
+            });
+            
+            const exactMatch = userInput === currentAnswer;
+            const closeMatch = currentAnswer.includes(userInput) || userInput.includes(currentAnswer);
+            
+            if (exactMatch || closeMatch || hasKeyComponents) {
+                state.correctAnswers += 1;
+                state.feedback = { isCorrect: true, message: "Correct!" };
+            } else {
+                state.feedback = { isCorrect: false, message: "Not quite. Check the answer and try the next card." };
+            }
+            
+            // Show the correct answer
+            state.showAnswer = true;
+            renderContent();
         }
 
-        function nextCard() {
-            if (currentCard < flashcards.length - 1) {
-                currentCard++;
-                updateCard();
+        function handleUserAnswerChange(event) {
+            state.userAnswer = event.target.value;
+        }
+
+        function renderContent() {
+            if (state.isCompleted) {
+                renderCompletionScreen();
+            } else {
+                renderFlashcard();
             }
         }
 
-        function previousCard() {
-            if (currentCard > 0) {
-                currentCard--;
-                updateCard();
+        function renderCompletionScreen() {
+            const percentCorrect = state.totalAttempts > 0 ? Math.round((state.correctAnswers / state.totalAttempts) * 100) : 0;
+            
+            contentContainer.innerHTML = `
+                <div class="completion-message">
+                    <h2 class="completion-title">Great job!</h2>
+                    <p class="text-lg mb-2">You've completed all the flashcards.</p>
+                    ${state.mode === 'test' ? 
+                        `<div class="mb-4">
+                            <p class="text-lg">Your score: ${state.correctAnswers} / ${state.totalAttempts} (${percentCorrect}%)</p>
+                        </div>` : 
+                        ''}
+                    <button 
+                        id="resetBtn"
+                        class="nav-button primary"
+                    >
+                        Start Over
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('resetBtn').addEventListener('click', handleReset);
+        }
+
+        function renderFlashcard() {
+            const currentCard = state.cards[state.currentCardIndex];
+            
+            let flashcardContent = `
+                <div class="card-info">
+                    <span>Card ${state.currentCardIndex + 1} of ${state.cards.length}</span>
+                    ${state.mode === 'test' ? `<span>Score: ${state.correctAnswers}/${state.totalAttempts}</span>` : ''}
+                </div>
+                
+                <div 
+                    id="flashcard"
+                    class="flashcard ${!state.showAnswer && state.mode === 'study' ? 'clickable' : ''}"
+                >
+                    <h3 class="question">${currentCard.question}</h3>
+                    
+                    ${state.mode === 'test' ? `
+                        <div>
+                            <textarea
+                                id="userAnswerInput"
+                                placeholder="Type your answer here..."
+                                rows="4"
+                                ${state.showAnswer ? 'disabled' : ''}
+                            >${state.userAnswer}</textarea>
+                            
+                            ${state.feedback ? `
+                                <div class="feedback ${state.feedback.isCorrect ? 'correct' : 'incorrect'}">
+                                    ${state.feedback.message}
+                                </div>
+                            ` : ''}
+                        </div>
+                    ` : ''}
+                    
+                    ${(state.showAnswer || state.mode === 'study') && state.showAnswer ? `
+                        <div class="answer-container">
+                            <p class="answer-label">Answer:</p>
+                            <p class="answer-text">${currentCard.answer}</p>
+                        </div>
+                    ` : ''}
+                </div>
+                
+                <div class="navigation">
+                    <button 
+                        id="previousBtn"
+                        class="nav-button secondary ${state.currentCardIndex === 0 ? 'disabled' : ''}"
+                        ${state.currentCardIndex === 0 ? 'disabled' : ''}
+                    >
+                        Previous
+                    </button>
+                    
+                    ${state.mode === 'test' && !state.showAnswer ? `
+                        <button 
+                            id="checkAnswerBtn"
+                            class="nav-button primary"
+                        >
+                            Check Answer
+                        </button>
+                    ` : ''}
+                    
+                    <button 
+                        id="nextBtn"
+                        class="nav-button primary"
+                    >
+                        ${state.currentCardIndex === state.cards.length - 1 ? 'Finish' : 'Next'}
+                    </button>
+                </div>
+            `;
+            
+            contentContainer.innerHTML = flashcardContent;
+            
+            // Add event listeners
+            if (state.mode === 'study' && !state.showAnswer) {
+                document.getElementById('flashcard').addEventListener('click', toggleAnswer);
+            }
+            
+            document.getElementById('previousBtn').addEventListener('click', handlePrevious);
+            document.getElementById('nextBtn').addEventListener('click', handleNext);
+            
+            if (state.mode === 'test' && !state.showAnswer) {
+                document.getElementById('checkAnswerBtn').addEventListener('click', checkAnswer);
+                document.getElementById('userAnswerInput').addEventListener('input', handleUserAnswerChange);
             }
         }
 
-        // Keyboard navigation
-        document.addEventListener('keydown', function(event) {
-            switch(event.key) {
-                case 'ArrowLeft':
-                    previousCard();
-                    break;
-                case 'ArrowRight':
-                    nextCard();
-                    break;
-                case ' ':
-                case 'Enter':
-                    event.preventDefault();
-                    flipCard();
-                    break;
-            }
-        });
-
-        // Initialize
-        updateCard();
+        // Initialize the app
+        renderContent();
     </script>
 </body>
 </html>
